@@ -162,7 +162,9 @@ class s7port:
         # the check on the CPU state is needed as get_connected() still returns True if the connect got terminated from the peer due to a bug in snap7
         # disconnects and clears the S7 plc objects if get_connected() but not str(self.plc.get_cpu_state()) == "S7CpuStatusRun" to force a clear restart
 #        return self.plc is not None and self.plc.get_connected() and str(self.plc.get_cpu_state()) == "S7CpuStatusRun"
+        # smart_200_plc 注释了下一行
         #if self.plc is not None and ((self.is_connected and not self.commError) or (self.plc.get_connected() and str(self.plc.get_cpu_state()) == 'S7CpuStatusRun')):
+        # smart_200_plc 增加了下一行
         if self.plc is not None and self.plc.get_connected():
             return True
 #            if str(self.plc.get_cpu_state()) == "S7CpuStatusRun":
@@ -220,6 +222,8 @@ class s7port:
             if isOpen(self.host,self.port):
                 try:
                     assert self.plc is not None
+                    # smart_200_plc 增加下行
+                    self.plc.set_connection_type(3)
                     self.plc.connect(self.host,self.rack,self.slot,self.port)
                     time.sleep(0.2)
                 except Exception as e: # pylint: disable=broad-except
@@ -241,6 +245,8 @@ class s7port:
                     # we try a second time
                     _log.debug('connect(): connecting (2nd attempt)')
                     time.sleep(0.3)
+                    # smart_200_plc 增加下行
+                    self.plc.set_connection_type(3)
                     self.plc.connect(self.host,self.rack,self.slot,self.port)
                     time.sleep(0.3)
 
@@ -358,6 +364,8 @@ class s7port:
             if self.aw.seriallogflag:
                 self.aw.addserial(f'S7 readActiveRegisters() => S7 Communication Error: {str(e)}')
             self.commError = True
+            #smart_200_plc 增加下面一行，确保在断联后会自动重连
+            self.disconnect() 
         finally:
             if self.COMsemaphore.available() < 1:
                 self.COMsemaphore.release(1)
