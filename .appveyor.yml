@@ -24,7 +24,7 @@ environment:
   #PYUPGRADE_MACOS_V: 3.12.1  # when upgrading see the notes in the deploy phase
 
   ARTISAN_KEY:
-    secure: 4BswEsF7OdFwgn3gMbnjkmCyAfJtmnak+3rmXzggbpitK0txN22SERo/sIh3wxse1L3rFDIPc+NDEEagMTFsODcmM8/gsclDbeJA4S5UTIY=
+    secure: pGBbl5WAloD1gCM7VL7wEm0yDQklmViXGGo4iNfMKFm5K2J3xBEKKqP/TAzAdUrvk2sZu0C3PkW4R9RHNA7UbirTs8UX1seg85J++Mst9Ws=
 
   matrix:
   - job_name: windows
