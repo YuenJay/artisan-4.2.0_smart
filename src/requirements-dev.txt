@@ -1,4 +1,4 @@
-types-docutils>=0.22.3.20260518
+types-docutils>=0.23.0.20260917
 types-jmespath>=1.1.0.20260508
 types-openpyxl>=3.1.5.20260518
 types-Pillow>=10.2.0.20240822
