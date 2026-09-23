@@ -9597,6 +9597,7 @@ class tgraphcanvas(QObject):
                             else:
                                 titleB = f'{self.roastbatchprefixB}{self.roastbatchnrB} {self.titleB}'
                         elif __release_sponsor_domain__ != '':
+                            # sponsor = QApplication.translate('About','sponsored by {}').format(__release_sponsor_domain__)
                             sponsor = QApplication.translate('About','sponsored by {}').format(__release_sponsor_domain__)
                             titleB = f'\n{sponsor}'
 
