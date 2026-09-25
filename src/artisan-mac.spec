@@ -162,7 +162,8 @@ exe = EXE(pyz,
             console=False,
             disable_windowed_traceback=False,
             argv_emulation=False, # False for GUI apps
-            target_arch='x86_64', #'arm64', #'universal2',
+            # target_arch='x86_64', #'arm64', #'universal2',
+            target_arch='arm64', #'arm64', #'universal2',
             codesign_identity=None,
             entitlements_file=None
             )
@@ -182,7 +183,7 @@ with open('Info.plist', 'rb') as infile:
                     'CFBundleVersion': 'Artisan ' + VERSION,
                     'LSMinimumSystemVersion': minimumSystemVersion,
                     'LSMultipleInstancesProhibited': False,
-                    'LSArchitecturePriority': ['x86_64'],
+                    'LSArchitecturePriority': ['arm64'],
                     'NSHumanReadableCopyright': LICENSE,
                     'NSHighResolutionCapable': True,
 #                    'UIDesignRequiresCompatibility': True, # run in compatibility mode, keeping the existing look and metrics of pre v26 macOS releases

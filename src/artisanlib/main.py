@@ -4348,7 +4348,7 @@ class ApplicationWindow(QMainWindow):
 #PLUS
         self.updatePlusStatusSignal.connect(self.updatePlusStatusSlot)
 
-        QTimer.singleShot(2000,self.donate)
+        #QTimer.singleShot(2000,self.donate)
 
         QTimer.singleShot(0, self.logStartupTime)
         QTimer.singleShot(500, self.updateBadge)

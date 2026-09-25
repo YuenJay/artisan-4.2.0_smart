@@ -1321,7 +1321,7 @@ END</source>
     <message>
         <location filename="../artisanlib/ports.py" line="270" />
         <source>Float</source>
-        <translation>漂浮</translation>
+        <translation>浮点</translation>
     </message>
     <message>
         <location filename="../artisanlib/ports.py" line="1378" />

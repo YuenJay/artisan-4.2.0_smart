@@ -580,7 +580,7 @@ class tgraphcanvas(QObject):
         self.flavorchart_total:Text|None = None
 
         #F = Fahrenheit; C = Celsius
-        self.mode:Literal['C', 'F'] = 'F'
+        self.mode:Literal['C', 'F'] = 'C'
 
         # default mode on platforms we can detect it like macOS:
         if platform.system() == 'Darwin':
@@ -9598,7 +9598,7 @@ class tgraphcanvas(QObject):
                                 titleB = f'{self.roastbatchprefixB}{self.roastbatchnrB} {self.titleB}'
                         elif __release_sponsor_domain__ != '':
                             # sponsor = QApplication.translate('About','sponsored by {}').format(__release_sponsor_domain__)
-                            sponsor = QApplication.translate('About','sponsored by {}').format(__release_sponsor_domain__)
+                            sponsor = 'Smart edition byJay'
                             titleB = f'\n{sponsor}'
 
                     # extra event names with substitution of event names applied
