@@ -1,3 +1,6 @@
+[MachineSetup]
+capacity=1.0
+heating_type=1
 [General]
 AUCLCDmode=0
 AUCbase=100
@@ -142,8 +145,6 @@ recentRoasts=@Invalid()
 replayDropType=0
 replayType=0
 resetqsettings=0
-roasterheating_setup=0
-roastersize_setup=0
 roastertype_setup=
 roastpropertiesAutoOpenDropFlag=0
 roastpropertiesAutoOpenFlag=0
@@ -161,7 +162,7 @@ standard_bean_labels=true
 step100temp=@Invalid()
 swapETBT=false
 swaplcds=false
-timestamp=2026-09-26T23:56:48
+timestamp=2026-09-27T00:17:29
 titleshowalways=false
 transMappingMode=0
 watermarks=true
@@ -296,7 +297,7 @@ zmin=0
 batchcounter=-1
 batchprefix=
 batchsequence=1
-lastroastepoch=1790432272
+lastroastepoch=1790433808
 neverUpdateBatchCounter=false
 
 [CurveStyles]
@@ -947,7 +948,7 @@ artisan_build=0
 artisan_os=macOS
 artisan_os_arch=arm64
 artisan_os_version=15.7.5
-artisan_revision=35b565c+
+artisan_revision=921f58d
 artisan_signature=29f13f2dbeacd4b04901ccd9a8848c5160d74ecaefdaf4fa565347cfdd820eeac3f92392ccc847f5bb5f58c08ad39be16514a7279141913f0572664b21591b0c
 artisan_version=4.2.0
 
