@@ -42,7 +42,7 @@ class s7port:
     __slots__ = [ 'aw', 'readRetries', 'channels', 'default_host', 'host', 'port', 'rack', 'slot', 'lastReadResult', 'area', 'db_nr', 'start', 'type', 'mode',
         'div', 'optimizer', 'fetch_max_blocks', 'fail_on_cache_miss', 'activeRegisterSequences', 'readingsCache', 'PID_area', 'PID_db_nr', 'PID_SV_register', 'PID_p_register',
         'PID_i_register', 'PID_d_register', 'PID_ON_action', 'PID_OFF_action', 'PIDmultiplier', 'SVtype', 'SVmultiplier', 'COMsemaphore',
-        'areas', 'last_request_timestamp', 'min_time_between_requests', 'is_connected', 'plc', 'commError' ]
+        'areas', 'last_request_timestamp', 'min_time_between_requests', 'is_connected', 'plc', 'commError', 'smart200_mode' ]
 
     MAX_REGISTER_SEGMENT:int = 100 # maximal length of registers fetched at once if fetch_max_blocks is set
 
@@ -67,6 +67,7 @@ class s7port:
         self.mode:list[int] = [0]*self.channels # temp mode is an int here, 0:__,1:C,2:F (this is different than other places)
         self.div:list[int] = [0]*self.channels
 
+        self.smart200_mode:bool = False # True if SMART 200 compatibility is enabled
         self.optimizer:bool = True # if set, values of consecutive register addresses are requested in single requests
         self.fetch_max_blocks:bool = False # if set, the optimizer fetches only one sequence per area from the minimum to the maximum register ignoring gaps
         self.fail_on_cache_miss:bool = True # if False and request cannot be resolved from optimizer cache while optimizer is active,
@@ -108,7 +109,6 @@ class s7port:
 
         self.plc:S7Client|None = None
         self.commError:bool = False # True after a communication error was detected and not yet cleared by receiving proper data
-
 ################
 
     @no_type_check # as types changed between vs 1.x and 2.x
@@ -162,11 +162,15 @@ class s7port:
         # the check on the CPU state is needed as get_connected() still returns True if the connect got terminated from the peer due to a bug in snap7
         # disconnects and clears the S7 plc objects if get_connected() but not str(self.plc.get_cpu_state()) == "S7CpuStatusRun" to force a clear restart
 #        return self.plc is not None and self.plc.get_connected() and str(self.plc.get_cpu_state()) == "S7CpuStatusRun"
-        # smart_200_plc 注释了下一行
-        #if self.plc is not None and ((self.is_connected and not self.commError) or (self.plc.get_connected() and str(self.plc.get_cpu_state()) == 'S7CpuStatusRun')):
-        # smart_200_plc 增加了下一行
-        if self.plc is not None and self.plc.get_connected():
-            return True
+        if self.smart200_mode:
+            # S7-200 SMART: snap7 的 get_cpu_state() 不返回 "S7CpuStatusRun"，
+            # 仅依赖 get_connected() 判断连接状态
+            if self.plc is not None and self.plc.get_connected():
+                return True
+        else:
+            # 标准 S7-300/400/1200/1500: 保留原始 CPU 状态检查逻辑
+            if self.plc is not None and ((self.is_connected and not self.commError) or (self.plc.get_connected() and str(self.plc.get_cpu_state()) == 'S7CpuStatusRun')):
+                return True
 #            if str(self.plc.get_cpu_state()) == "S7CpuStatusRun":
 #                return True
 #            else:
@@ -222,8 +226,8 @@ class s7port:
             if isOpen(self.host,self.port):
                 try:
                     assert self.plc is not None
-                    # smart_200_plc 增加下行
-                    self.plc.set_connection_type(3)
+                    if self.smart200_mode:
+                        self.plc.set_connection_type(3)
                     self.plc.connect(self.host,self.rack,self.slot,self.port)
                     time.sleep(0.2)
                 except Exception as e: # pylint: disable=broad-except
@@ -245,8 +249,8 @@ class s7port:
                     # we try a second time
                     _log.debug('connect(): connecting (2nd attempt)')
                     time.sleep(0.3)
-                    # smart_200_plc 增加下行
-                    self.plc.set_connection_type(3)
+                    if self.smart200_mode:
+                        self.plc.set_connection_type(3)
                     self.plc.connect(self.host,self.rack,self.slot,self.port)
                     time.sleep(0.3)
 
@@ -364,8 +368,8 @@ class s7port:
             if self.aw.seriallogflag:
                 self.aw.addserial(f'S7 readActiveRegisters() => S7 Communication Error: {str(e)}')
             self.commError = True
-            #smart_200_plc 增加下面一行，确保在断联后会自动重连
-            self.disconnect() 
+            if self.smart200_mode:
+                self.disconnect()
         finally:
             if self.COMsemaphore.available() < 1:
                 self.COMsemaphore.release(1)

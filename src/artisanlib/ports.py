@@ -394,7 +394,7 @@ class comportDlg(ArtisanResizeablDialog):
         'modbus_pid_on', 'modbus_Serial_delayEdit', 'modbus_Serial_retriesComboBox', 'modbus_IP_timeoutEdit', 'modbus_IP_retriesComboBox', 'modbus_optimize',
         'modbus_full_block', 's7_hostEdit', 's7_portEdit', 's7_rackEdit', 's7_slotEdit', 's7_optimize', 's7_full_block', 's7_areaCombos', 's7_dbEdits',
         's7_startEdits', 's7_typeCombos', 's7_modeCombos', 's7_divCombos', 's7_PIDarea', 's7_PIDdb_nr_Edit', 's7_SVregister_Edit', 's7_SVtype', 's7_SVmultiplier',
-        's7_PIDmultiplier', 's7_Pregister_Edit', 's7_Iregister_Edit', 's7_Dregister_Edit', 's7_pid_off', 's7_pid_on', 'ws_hostEdit', 'ws_portEdit', 'ws_pathEdit',
+        's7_PIDmultiplier', 's7_Pregister_Edit', 's7_Iregister_Edit', 's7_Dregister_Edit', 's7_pid_off', 's7_pid_on','s7_smart200', 'ws_hostEdit', 'ws_portEdit', 'ws_pathEdit',
         'ws_machineIDEdit', 'ws_connect_timeout', 'ws_reconnect_timeout', 'ws_request_timeout', 'ws_messageID', 'ws_message', 'ws_command', 'ws_data',
         'ws_data_request', 'ws_charge', 'ws_drop', 'ws_STARTonCHARGE', 'ws_OFFonDROP', 'ws_event_message', 'ws_event', 'ws_DRY', 'ws_FCs', 'ws_FCe', 'ws_SCs',
         'ws_SCe', 'ws_requestEdits', 'ws_nodeEdits', 'ws_modeCombos', 'ws_compression', 'mqtt_hostEdit', 'mqtt_portEdit', 'mqtt_tls_checkBox',
@@ -962,6 +962,15 @@ class comportDlg(ArtisanResizeablDialog):
         scanButtonS7.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         scanButtonS7.clicked.connect(self.scanS7)
 
+        # SMART 200 兼容复选框
+        self.s7_smart200 = QCheckBox(QApplication.translate('CheckBox', 'SMART 200'))
+        self.s7_smart200.setChecked(self.aw.s7.smart200_mode)
+        self.s7_smart200.setToolTip(QApplication.translate(
+            'Tooltip',
+            'Enable S7-200 SMART compatibility: set connection type to 3, '
+            'use simplified connection check, and auto-reconnect on communication loss'))
+        self.s7_smart200.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        
         self.s7_optimize = QCheckBox(QApplication.translate('ComboBox','optimize'))
         self.s7_optimize.setChecked(self.aw.s7.optimizer)
         self.s7_optimize.setFocusPolicy(Qt.FocusPolicy.NoFocus)
@@ -1193,6 +1202,8 @@ class comportDlg(ArtisanResizeablDialog):
 
         s7_setup = QHBoxLayout()
         s7_setup.addWidget(scanButtonS7)
+        s7_setup.addSpacing(7)
+        s7_setup.addWidget(self.s7_smart200)   # ← 新增
         s7_setup.addStretch()
         s7_setup.addSpacing(7)
         s7_setup.addWidget(self.s7_optimize)

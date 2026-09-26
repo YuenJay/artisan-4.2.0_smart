@@ -18650,6 +18650,7 @@ class ApplicationWindow(QMainWindow):
             self.s7.PIDmultiplier = toInt(settings.value('PIDmultiplier',self.s7.PIDmultiplier))
             self.s7.SVmultiplier = toInt(settings.value('SVmultiplier',self.s7.SVmultiplier))
             self.s7.SVtype = toInt(settings.value('SVtype',self.s7.SVtype))
+            self.s7.smart200_mode = toBool(settings.value('smart200_mode', self.s7.smart200_mode))
             self.s7.optimizer = toBool(settings.value('optimizer',self.s7.optimizer))
             self.s7.fetch_max_blocks = toBool(settings.value('fetch_max_blocks',self.s7.fetch_max_blocks))
             settings.endGroup()
@@ -20618,6 +20619,7 @@ class ApplicationWindow(QMainWindow):
             self.settingsSetValue(settings, default_settings, 'PIDmultiplier',self.s7.PIDmultiplier, read_defaults)
             self.settingsSetValue(settings, default_settings, 'SVtype',self.s7.SVtype, read_defaults)
             self.settingsSetValue(settings, default_settings, 'SVmultiplier',self.s7.SVmultiplier, read_defaults)
+            self.settingsSetValue(settings, default_settings, 'smart200_mode', self.s7.smart200_mode, read_defaults)
             self.settingsSetValue(settings, default_settings, 'optimizer',self.s7.optimizer, read_defaults)
             self.settingsSetValue(settings, default_settings, 'fetch_max_blocks',self.s7.fetch_max_blocks, read_defaults)
             settings.endGroup()
@@ -24988,6 +24990,7 @@ class ApplicationWindow(QMainWindow):
                 self.s7.PID_d_register = toInt(str(dialog.s7_Dregister_Edit.text()))
                 self.s7.PID_OFF_action = s2a(toString(dialog.s7_pid_off.text()))
                 self.s7.PID_ON_action = s2a(toString(dialog.s7_pid_on.text()))
+                self.s7.smart200_mode = dialog.s7_smart200.isChecked()
                 self.s7.optimizer = bool(dialog.s7_optimize.isChecked())
                 self.s7.fetch_max_blocks = bool(dialog.s7_full_block.isChecked())
             except Exception as e: # pylint: disable=broad-except
