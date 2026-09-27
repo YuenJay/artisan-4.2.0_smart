@@ -43,6 +43,15 @@ except Exception:
     PYTHON_V = '3.14'
 python_version = f'python{PYTHON_V}'
 
+import platform
+
+try:
+    TARGET_ARCH = os.environ['TARGET_ARCH']
+except Exception:
+    TARGET_ARCH = platform.machine()
+if TARGET_ARCH not in {'x86_64', 'arm64'}:
+    raise ValueError(f"TARGET_ARCH must be 'x86_64' or 'arm64', got: {TARGET_ARCH}")
+
 try:
     QTDIR = os.environ['QT_PATH'] + r'/'
 except Exception:
@@ -162,8 +171,7 @@ exe = EXE(pyz,
             console=False,
             disable_windowed_traceback=False,
             argv_emulation=False, # False for GUI apps
-            # target_arch='x86_64', #'arm64', #'universal2',
-            target_arch='arm64', #'arm64', #'universal2',
+            target_arch=TARGET_ARCH, #'arm64', #'universal2',
             codesign_identity=None,
             entitlements_file=None
             )
@@ -183,7 +191,7 @@ with open('Info.plist', 'rb') as infile:
                     'CFBundleVersion': 'Artisan ' + VERSION,
                     'LSMinimumSystemVersion': minimumSystemVersion,
                     'LSMultipleInstancesProhibited': False,
-                    'LSArchitecturePriority': ['arm64'],
+                    'LSArchitecturePriority': [TARGET_ARCH],
                     'NSHumanReadableCopyright': LICENSE,
                     'NSHighResolutionCapable': True,
 #                    'UIDesignRequiresCompatibility': True, # run in compatibility mode, keeping the existing look and metrics of pre v26 macOS releases
@@ -462,7 +470,7 @@ for subdir, _dirs, files in os.walk('.', followlinks=False):
 ####
 
 
-dist_name = r'artisan-mac-' + VERSION + r'.dmg'
+dist_name = r'artisan_smart-mac-' + VERSION + '-' + TARGET_ARCH + r'.dmg'
 os.chdir('..')
 os.system(r'rm ' + dist_name)
 os.system(r'hdiutil create ' + dist_name + r' -volname "Artisan" -fs HFS+ -srcfolder "dist"')
