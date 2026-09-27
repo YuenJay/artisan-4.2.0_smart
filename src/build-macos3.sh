@@ -50,7 +50,7 @@ pyinstaller -y --log-level=INFO artisan-mac.spec
 version=$(python3 -c "import artisanlib; print(artisanlib.__version__)")
 echo "version: $version"
 
-dmg_file=$(ls dist/*.dmg 2>/dev/null | head -n1)
+dmg_file=$(ls *.dmg 2>/dev/null | head -n1)
 if [ -z "$dmg_file" ]; then
     echo "No .dmg found in dist/"
     exit 1
