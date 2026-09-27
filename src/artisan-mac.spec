@@ -470,7 +470,7 @@ for subdir, _dirs, files in os.walk('.', followlinks=False):
 ####
 
 
-dist_name = r'artisan_smart-mac-' + VERSION + '-' + TARGET_ARCH + r'.dmg'
+dist_name = r'artisan-mac-' + VERSION + '-' + TARGET_ARCH + r'.dmg'
 os.chdir('..')
 os.system(r'rm ' + dist_name)
 os.system(r'hdiutil create ' + dist_name + r' -volname "Artisan" -fs HFS+ -srcfolder "dist"')
