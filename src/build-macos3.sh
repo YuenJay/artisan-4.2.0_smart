@@ -48,18 +48,20 @@ pyinstaller -y --log-level=INFO artisan-mac.spec
 
 # Check that the packaged files are above an expected size
 version=$(python3 -c "import artisanlib; print(artisanlib.__version__)")
-basename="artisan-mac-$version"
-echo "basename: $basename"
-suffixes=".dmg" # array of suffixes to check
+echo "version: $version"
+
+dmg_file=$(ls dist/*.dmg 2>/dev/null | head -n1)
+if [ -z "$dmg_file" ]; then
+    echo "No .dmg found in dist/"
+    exit 1
+fi
+echo "checking $dmg_file"
+size=$(($(du -k "$dmg_file" | cut -f1) * 1024))
+echo "$dmg_file size: $size bytes"
 min_size=260000000
-for suffix in $suffixes; do
-    filename="$basename$suffix"
-    size=$(($(du -k "$filename" | cut -f1) * 1024)) # returns kB so multiply by 1024 (du works on macOS)
-    echo "$filename size: $size bytes"
-    if [ "$size" -lt "$min_size" ]; then
-        echo "$filename is smaller than minimum $min_size bytes"
-        exit 1
-    else
-        echo "**** Success: $filename is larger than minimum $min_size bytes"
-    fi
-done
+if [ "$size" -lt "$min_size" ]; then
+    echo "$dmg_file is smaller than minimum $min_size bytes"
+    exit 1
+else
+    echo "**** Success: $dmg_file is larger than minimum $min_size bytes"
+fi
