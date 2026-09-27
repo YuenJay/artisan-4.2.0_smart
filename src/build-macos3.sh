@@ -52,7 +52,7 @@ echo "version: $version"
 
 dmg_file=$(ls *.dmg 2>/dev/null | head -n1)
 if [ -z "$dmg_file" ]; then
-    echo "No .dmg found in dist/"
+    echo "No .dmg found in current directory/"
     exit 1
 fi
 echo "checking $dmg_file"
