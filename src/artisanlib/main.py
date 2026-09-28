@@ -5990,16 +5990,17 @@ class ApplicationWindow(QMainWindow):
                         else:
                             res = False
                     elif self.qmc.device == 79 or 79 in self.qmc.extradevices: # S7
-                        # as default we offer the current settings S7 host, or if this is set to its default as after a factory reset (self.s7.default_host) we take the one from the machine setup
-                        defaultS7Host:str = (self.s7.host if org_s7_host == self.s7.default_host else org_s7_host)
-                        host, res2 = QInputDialog.getText(self,
-                            f"{QApplication.translate('Message', 'Machine')} (S7)",
-                            QApplication.translate('Message', 'Network name or IP address'),text=defaultS7Host)
-                        if res2:
-                            res = res2
-                            self.s7.host = host
-                        else:
-                            res = False
+                        # # as default we offer the current settings S7 host, or if this is set to its default as after a factory reset (self.s7.default_host) we take the one from the machine setup
+                        # defaultS7Host:str = (self.s7.host if org_s7_host == self.s7.default_host else org_s7_host)
+                        # host, res2 = QInputDialog.getText(self,
+                        #     f"{QApplication.translate('Message', 'Machine')} (S7)",
+                        #     QApplication.translate('Message', 'Network name or IP address'),text=defaultS7Host)
+                        # if res2:
+                        #     res = res2
+                        #     self.s7.host = host
+                        # else:
+                        #     res = False
+                        pass
                     elif self.qmc.device == 111 or 111 in self.qmc.extradevices: # WebSocket
                         # as default we offer the current settings WebSocket host, or if this is set to its default as after a factory reset (self.ws.default_host) we take the one from the machine setup
                         defaultWSHost:str = (self.ws.host if org_ws_host == self.ws.default_host else org_ws_host)
