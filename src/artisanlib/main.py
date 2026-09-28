@@ -1545,7 +1545,8 @@ class ApplicationWindow(QMainWindow):
 
         self.locale_str:str = locale
         self.app:Artisan = app
-        self.official_build:bool = appFrozen() and __signature__ != '' and self.app_signature_valid() # type:ignore[reportUnnecessaryComparison,unused-ignore]
+        # self.official_build:bool = appFrozen() and __signature__ != '' and self.app_signature_valid() # type:ignore[reportUnnecessaryComparison,unused-ignore]
+        self.official_build:bool = False
         self.superusermode:bool = False
         self.ui_mode:UI_MODE = UI_MODE.DEFAULT
 

@@ -1,9 +1,9 @@
 __version__ = '4.2.0'
 __revision__ = ''
 __build__ = '0'
-__artisan_os__ = 'Linux'
+__artisan_os__ = 'macOS'
 
 __release_sponsor_name__ = ''
-__release_sponsor_domain__ = 'Not empty'
+__release_sponsor_domain__ = 'JaysLab'
 __release_sponsor_url__ = ''
-__signature__ = '29f13f2dbeacd4b04901ccd9a8848c5160d74ecaefdaf4fa565347cfdd820eeac3f92392ccc847f5bb5f58c08ad39be16514a7279141913f0572664b21591b0c'
+__signature__ = '836b9beff41795b391ccb425dfcb7310b6bf5bc2fd414f9b07a50fc92e36647d47648ff3fd1e823df909041297df0ae5cc34cdea97ea7daba7a3eec1dfbff904'
