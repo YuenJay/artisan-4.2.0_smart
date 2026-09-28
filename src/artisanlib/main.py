@@ -24627,7 +24627,8 @@ class ApplicationWindow(QMainWindow):
             otherlibs += ', Yoctopuce ' + yocto_version
         except Exception as e: # pylint: disable=broad-except
             _log.exception(e)
-        unofficial = ('' if not appFrozen() or self.official_build else QApplication.translate('Message', 'unoffical build')) # fork, mod
+        # unofficial = ('' if not appFrozen() or self.official_build else QApplication.translate('Message', 'unoffical build')) # fork, mod
+        unofficial = ''
         box.about(self,
                 QApplication.translate('About', 'About'),
                 """<h2>{0} {1}{14}{2}</h2>{17}
